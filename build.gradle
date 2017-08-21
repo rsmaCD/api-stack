@@ -1,0 +1,66 @@
+println project.group + ":" + rootProject.name + ":" + project.version
+
+defaultTasks 'clean', 'build'
+
+buildscript {
+    ext {
+        springBootVersion = '1.5.4.RELEASE'
+        buildDir = relativePath("./build")
+    }
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.17"
+        classpath group: 'se.transmode.gradle', name: 'gradle-docker', version: '1.2'
+        classpath 'org.liquibase:liquibase-core:3.5.3'
+        classpath "org.liquibase:liquibase-gradle-plugin:1.2.4"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply from: file('gradle/idea.gradle')
+apply from: file('gradle/test-coverage.gradle')
+apply from: file('gradle/api-test.gradle')
+apply from: file('gradle/check-style.gradle')
+apply from: file('gradle/build-info.gradle')
+apply from: file('gradle/docker.gradle')
+apply from: file('gradle/remote-debug.gradle')
+
+
+version = project.version
+sourceCompatibility = project.javaV
+targetCompatibility = project.javaV
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-aop')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    //compile('org.flywaydb:flyway-core')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.liquibase:liquibase-core')
+    compile 'io.jsonwebtoken:jjwt:0.7.0'
+    compile group: 'com.google.guava', name: 'guava', version: '22.0'
+    compileOnly('org.springframework.boot:spring-boot-configuration-processor')
+    runtime('org.springframework.boot:spring-boot-devtools')
+    runtime('com.h2database:h2')
+    runtime('mysql:mysql-connector-java')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile group: 'com.jayway.restassured', name: 'rest-assured', version: rest_assured_version
+    testCompile group: 'com.jayway.restassured', name: 'json-schema-validator', version: rest_assured_version
+    compile("org.springframework.boot:spring-boot-starter-hateoas")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.5.1'
+}

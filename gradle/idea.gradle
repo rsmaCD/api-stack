@@ -1,0 +1,16 @@
+apply plugin: 'idea'
+
+idea {
+    project {
+        languageLevel = project.javaV
+        jdkName = project.javaV
+
+        ipr {
+            withXml { provider ->
+                provider.node.component
+                        .find { it.@name == 'VcsDirectoryMappings' }
+                        .mapping.@vcs = 'Git'
+            }
+        }
+    }
+}

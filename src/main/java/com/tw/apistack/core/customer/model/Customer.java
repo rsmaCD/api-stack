@@ -18,7 +18,7 @@ public class Customer {
     private String firstName;
     private String lastName;
 
-    @OneToMany
+    @OneToMany(cascade={CascadeType.PERSIST,CascadeType.REMOVE})
     @JoinTable(name = "customer_address", joinColumns = @JoinColumn(name = "customer_id"), inverseJoinColumns = @JoinColumn(name = "address_id"))
     private Set<Address> addressSet;
 

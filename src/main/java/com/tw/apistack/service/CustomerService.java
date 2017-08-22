@@ -55,8 +55,8 @@ public class CustomerService {
     public boolean updateById(Long id, Customer customer) {
         Customer customerById = customerValidator.validateCustomerExistAndReturn(id);
         Customer customerMerged = customerById.merge(customer);
-        customerRepository.save(customerMerged);
-        return true;
+        Customer save = customerRepository.save(customerMerged);
+        return save != null;
     }
 
     public boolean deleteById(Long id) {

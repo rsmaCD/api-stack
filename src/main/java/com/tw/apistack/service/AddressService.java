@@ -26,10 +26,12 @@ public class AddressService {
     private CustomerRepository customerRepository;
     @Autowired
     private CustomerValidator customerValidator;
+    @Autowired
+    private CustomerTranslator customerTranslator;
 
     public AddressDto getByCustomerIdAndAddressId(Long customerId, Long addressId){
         Address address = customerValidator.validateCustomerAndAddressExistAndReturn(customerId, addressId);
-        return CustomerTranslator.translateAddressModelToDto(address);
+        return customerTranslator.translateAddressModelToDto(address);
     }
 
     public boolean addAddress(Long customerId, Address address) {

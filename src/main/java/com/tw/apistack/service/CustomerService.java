@@ -25,25 +25,27 @@ public class CustomerService {
     @Autowired
     private CustomerValidator customerValidator;
     private static final int PAGE_SIZE = 1;
+    @Autowired
+    private CustomerTranslator customerTranslator;
 
     public List<CustomerDto> getByLastNameContaining(String lastName, int pageNum) {
         return Lists.newArrayList(customerRepository.findByLastNameContaining(lastName, new PageRequest(pageNum, PAGE_SIZE)))
                 .stream()
-                .map(CustomerTranslator::translateCustomerModelToDto)
+                .map(customerTranslator::translateCustomerModelToDto)
                 .collect(Collectors.toList());
     }
 
     public List<CustomerDto> getAll() {
         return Lists.newArrayList(customerRepository.findAll())
                 .stream()
-                .map(CustomerTranslator::translateCustomerModelToDto)
+                .map(customerTranslator::translateCustomerModelToDto)
                 .collect(Collectors.toList());
     }
 
     public List<CustomerDto> getByPage(int pageNum) {
         return Lists.newArrayList(customerRepository.findAll(new PageRequest(pageNum, PAGE_SIZE)))
                 .stream()
-                .map(CustomerTranslator::translateCustomerModelToDto)
+                .map(customerTranslator::translateCustomerModelToDto)
                 .collect(Collectors.toList());
     }
 
@@ -68,11 +70,11 @@ public class CustomerService {
 
     public List<AddressDto> getAddressesByCustomerId(Long id){
         Customer customerById = customerValidator.validateCustomerExistAndReturn(id);
-        return CustomerTranslator.translateAddressesModelToDto(customerById.getAddressSet());
+        return customerTranslator.translateAddressesModelToDto(customerById.getAddressSet());
     }
 
     public CustomerDto getById(Long id) {
         Customer customerById = customerValidator.validateCustomerExistAndReturn(id);
-        return CustomerTranslator.translateCustomerModelToDto(customerById);
+        return customerTranslator.translateCustomerModelToDto(customerById);
     }
 }

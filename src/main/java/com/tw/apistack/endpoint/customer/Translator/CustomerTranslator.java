@@ -4,39 +4,36 @@ import com.tw.apistack.core.address.model.Address;
 import com.tw.apistack.core.customer.model.Customer;
 import com.tw.apistack.endpoint.customer.dto.AddressDto;
 import com.tw.apistack.endpoint.customer.dto.CustomerDto;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Created by rsma on 20/08/2017.
  */
+@Component
 public class CustomerTranslator {
-    public static CustomerDto translateCustomerModelToDto(Customer customer){
-        CustomerDto customerDto = new CustomerDto();
-        customerDto.setId(customer.getId());
-        customerDto.setFirstName(customer.getFirstName());
-        customerDto.setLastName(customer.getLastName());
-        return customerDto;
+
+    @Autowired
+    private ModelMapper modelMapper;
+    public CustomerDto translateCustomerModelToDto(Customer customer){
+        return modelMapper.map(customer,CustomerDto.class);
     }
 
-    public static List<AddressDto> translateAddressesModelToDto(Set<Address> addresses){
+    public List<AddressDto> translateAddressesModelToDto(Set<Address> addresses){
         List<AddressDto> addressDtos = new ArrayList<>();
         for (Address address : addresses) {
-            AddressDto addressDto = new AddressDto();
-            addressDto.setId(address.getId());
-            addressDto.setCity(address.getCity());
+            AddressDto addressDto = modelMapper.map(address,AddressDto.class);
             addressDtos.add(addressDto);
         }
         return addressDtos;
     }
 
-    public static AddressDto translateAddressModelToDto(Address address){
-        AddressDto addressDto = new AddressDto();
-        addressDto.setId(address.getId());
-        addressDto.setCity(address.getCity());
-        return addressDto;
+    public AddressDto translateAddressModelToDto(Address address){
+        return modelMapper.map(address,AddressDto.class);
     }
 }

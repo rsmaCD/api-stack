@@ -59,6 +59,7 @@ dependencies {
     testCompile group: 'com.jayway.restassured', name: 'rest-assured', version: rest_assured_version
     testCompile group: 'com.jayway.restassured', name: 'json-schema-validator', version: rest_assured_version
     compile("org.springframework.boot:spring-boot-starter-hateoas")
+    compile 'com.github.jmnarloch:modelmapper-spring-boot-starter:1.1.0'
 }
 
 task wrapper(type: Wrapper) {

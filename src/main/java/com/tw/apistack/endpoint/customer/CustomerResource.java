@@ -7,6 +7,7 @@ import com.tw.apistack.endpoint.customer.dto.CustomerDto;
 import com.tw.apistack.endpoint.customer.dto.ResourceWithUrl;
 import com.tw.apistack.service.AddressService;
 import com.tw.apistack.service.CustomerService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,7 @@ public class CustomerResource {
     public HttpEntity<List<ResourceWithUrl<CustomerDto>>> getAll() {
         List<CustomerDto> customerDtos = customerService.getAll();
         List<ResourceWithUrl<CustomerDto>> resourceWithUrls = new ArrayList<>();
-        if (customerDtos.size() != 0) {
+        if (!customerDtos.isEmpty()) {
             resourceWithUrls = customerDtos.stream()
                     .map(this::getCustomerWithUrl)
                     .collect(Collectors.toList());

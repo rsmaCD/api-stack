@@ -70,7 +70,7 @@ public class CustomerResource {
     @PostMapping
     public HttpEntity save(@RequestBody @Valid CustomerDto customerDto) {
         if (customerService.save(customerDto)) {
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }

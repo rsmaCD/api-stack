@@ -26,6 +26,10 @@ public class Address {
         this.city = city;
     }
 
+    public Address(String city) {
+        this.city = city;
+    }
+
     public Long getId() {
         return id;
     }

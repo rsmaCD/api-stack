@@ -1,8 +1,7 @@
 package com.tw.apistack.endpoint.customer.dto;
 
-import com.tw.apistack.core.customer.model.Customer;
-
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**

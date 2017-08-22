@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 public class AddressDto {
 
     private Long id;
-    @NotNull
     private String city;
 
     public AddressDto() {

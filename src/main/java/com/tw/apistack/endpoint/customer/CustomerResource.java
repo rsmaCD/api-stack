@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-import static org.springframework.http.HttpStatus.OK;
 
 /**
  * Created by rsma on 18/08/2017.
@@ -54,9 +53,6 @@ public class CustomerResource {
     @GetMapping("/{customer-id}")
     public HttpEntity getById(@PathVariable("customer-id") Long id) {
         CustomerDto customerDto = customerService.getById(id);
-        if (customerDto == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
         return ResponseEntity.ok(getCustomerWithUrl(customerDto));
     }
 
@@ -74,7 +70,7 @@ public class CustomerResource {
         if (customerService.save(customer)) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     @PutMapping("/{customer-id}")
@@ -82,7 +78,7 @@ public class CustomerResource {
         if (customerService.updateById(id, customer)) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     @DeleteMapping("/{customer-id}")
@@ -90,29 +86,23 @@ public class CustomerResource {
         if (customerService.deleteById(id)) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     @GetMapping("/{customer-id}/addresses")
     public HttpEntity getAddressesByCustomerId(@PathVariable("customer-id") Long id) {
         List<AddressDto> addressesByCustomerId = customerService.getAddressesByCustomerId(id);
-        if (addressesByCustomerId != null) {
-            List<ResourceWithUrl<AddressDto>> resourceWithUrls = addressesByCustomerId
-                    .stream()
-                    .map(addressDto -> getAddressWithUrl(id, addressDto))
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(resourceWithUrls);
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        List<ResourceWithUrl<AddressDto>> resourceWithUrls = addressesByCustomerId
+                .stream()
+                .map(addressDto -> getAddressWithUrl(id, addressDto))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(resourceWithUrls);
     }
 
     @GetMapping("/{customer-id}/addresses/{address-id}")
     public HttpEntity getAddressByCustomerIdAndAddressId(@PathVariable("customer-id") Long customerId, @PathVariable("address-id") Long addressId) {
         AddressDto addressDto = addressService.getByCustomerIdAndAddressId(customerId, addressId);
-        if (addressDto != null) {
-            return ResponseEntity.ok(getAddressWithUrl(customerId,addressDto));
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.ok(getAddressWithUrl(customerId, addressDto));
     }
 
     @PostMapping("/{customer-id}/addresses")
@@ -120,7 +110,7 @@ public class CustomerResource {
         if (addressService.addAddress(customerId, address)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     @PutMapping("/{customer-id}/addresses/{address-id}")
@@ -128,15 +118,13 @@ public class CustomerResource {
         if (addressService.modifyAddressByCustomerIdAndAddressId(customerId, addressId, address)) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     @DeleteMapping("/{customer-id}/addresses/{address-id}")
     public HttpEntity deleteAddressByCustomerIdAndAddressId(@PathVariable("customer-id") Long customerId, @PathVariable("address-id") Long addressId) {
-        if (addressService.deleteAddressByCustomerIdAndAddressId(customerId, addressId)) {
-            return ResponseEntity.status(HttpStatus.OK).build();
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        addressService.deleteAddressByCustomerIdAndAddressId(customerId, addressId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     private ResourceWithUrl<CustomerDto> getCustomerWithUrl(CustomerDto customerDto) {

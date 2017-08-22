@@ -11,6 +11,7 @@ import com.tw.apistack.service.resourceValidator.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -44,10 +45,13 @@ public class AddressService {
         return addressRepository.save(oldAddress.merge(address)) != null;
     }
 
-    public boolean deleteAddressByCustomerIdAndAddressId(Long customerId, Long addressId) {
+    @Transactional
+    public void deleteAddressByCustomerIdAndAddressId(Long customerId, Long addressId) {
         customerValidator.validateCustomerAndAddressExistAndReturn(customerId, addressId);
+        Customer customer = customerRepository.findOne(customerId);
+        customer.getAddressSet().removeIf(address -> address.getId().equals(addressId));
+        customerRepository.save(customer);
         addressRepository.delete(addressId);
-        return true;
     }
 
     public List<Address> getAddresses(){

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -34,13 +35,12 @@ public class CustomerValidator {
         if (customerById == null) {
             throw new ResourceNotExitException(String.format(CustomerNotExitExceptionMsg,customerId));
         }
-        List<Address> addresses = customerById.getAddressSet()
+        Optional<Address> addressOptional = customerById.getAddressSet()
                 .stream()
-                .filter(addressOne -> addressOne.getId().equals(addressId))
-                .collect(Collectors.toList());
-        if(addresses.size() == 0){
+                .filter(addressOne -> addressOne.getId().equals(addressId)).findFirst();
+        if(!addressOptional.isPresent()){
             throw new ResourceNotExitException(String.format(AddressNotExitExceptionMsg,addressId));
         }
-        return addresses.get(0);
+        return addressOptional.get();
     }
 }

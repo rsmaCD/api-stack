@@ -24,6 +24,10 @@ public class CustomerTranslator {
         return modelMapper.map(customer,CustomerDto.class);
     }
 
+    public Customer translateCustomerDtoToModel(CustomerDto customerDto){
+        return modelMapper.map(customerDto,Customer.class);
+    }
+
     public List<AddressDto> translateAddressesModelToDto(Set<Address> addresses){
         List<AddressDto> addressDtos = new ArrayList<>();
         for (Address address : addresses) {
@@ -35,5 +39,9 @@ public class CustomerTranslator {
 
     public AddressDto translateAddressModelToDto(Address address){
         return modelMapper.map(address,AddressDto.class);
+    }
+
+    public Address translateAddressDtoToModel(AddressDto addressDto){
+        return modelMapper.map(addressDto,Address.class);
     }
 }

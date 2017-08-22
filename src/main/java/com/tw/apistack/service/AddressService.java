@@ -34,16 +34,18 @@ public class AddressService {
         return customerTranslator.translateAddressModelToDto(address);
     }
 
-    public boolean addAddress(Long customerId, Address address) {
+    public boolean addAddress(Long customerId, AddressDto addressDto) {
         Customer customer = customerValidator.validateCustomerExistAndReturn(customerId);
+        Address address = customerTranslator.translateAddressDtoToModel(addressDto);
         Address addressSave = addressRepository.save(address);
         customer.getAddressSet().add(addressSave);
         Customer save = customerRepository.save(customer);
         return save != null;
     }
 
-    public boolean modifyAddressByCustomerIdAndAddressId(Long customerId, Long addressId, Address address){
+    public boolean modifyAddressByCustomerIdAndAddressId(Long customerId, Long addressId, AddressDto addressDto){
         Address oldAddress = customerValidator.validateCustomerAndAddressExistAndReturn(customerId, addressId);
+        Address address = customerTranslator.translateAddressDtoToModel(addressDto);
         return addressRepository.save(oldAddress.merge(address)) != null;
     }
 

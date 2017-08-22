@@ -67,16 +67,16 @@ public class CustomerResource {
     }
 
     @PostMapping
-    public HttpEntity save(@RequestBody Customer customer) {
-        if (customerService.save(customer)) {
+    public HttpEntity save(@RequestBody CustomerDto customerDto) {
+        if (customerService.save(customerDto)) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     @PutMapping("/{customer-id}")
-    public HttpEntity update(@PathVariable("customer-id") Long id, @RequestBody Customer customer) {
-        if (customerService.updateById(id, customer)) {
+    public HttpEntity update(@PathVariable("customer-id") Long id, @RequestBody CustomerDto customerDto) {
+        if (customerService.updateById(id, customerDto)) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -107,16 +107,16 @@ public class CustomerResource {
     }
 
     @PostMapping("/{customer-id}/addresses")
-    public HttpEntity addAddress(@PathVariable("customer-id") Long customerId, @RequestBody Address address) {
-        if (addressService.addAddress(customerId, address)) {
+    public HttpEntity addAddress(@PathVariable("customer-id") Long customerId, @RequestBody AddressDto addressDto) {
+        if (addressService.addAddress(customerId, addressDto)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     @PutMapping("/{customer-id}/addresses/{address-id}")
-    public HttpEntity modifyAddressByCustomerIdAndAddressId(@PathVariable("customer-id") Long customerId, @PathVariable("address-id") Long addressId, @RequestBody Address address) {
-        if (addressService.modifyAddressByCustomerIdAndAddressId(customerId, addressId, address)) {
+    public HttpEntity modifyAddressByCustomerIdAndAddressId(@PathVariable("customer-id") Long customerId, @PathVariable("address-id") Long addressId, @RequestBody AddressDto addressDto) {
+        if (addressService.modifyAddressByCustomerIdAndAddressId(customerId, addressId, addressDto)) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

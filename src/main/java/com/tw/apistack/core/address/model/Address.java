@@ -1,7 +1,5 @@
 package com.tw.apistack.core.address.model;
 
-import com.tw.apistack.core.customer.model.Customer;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

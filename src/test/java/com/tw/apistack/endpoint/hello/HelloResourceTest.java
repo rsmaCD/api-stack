@@ -1,7 +1,6 @@
 package com.tw.apistack.endpoint.hello;
 
 import com.tw.apistack.endpoint.hello.dto.Greeting;
-import com.tw.apistack.endpoint.hello.HelloResource;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

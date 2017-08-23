@@ -49,10 +49,10 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public boolean save(CustomerDto customerDto) {
+    public CustomerDto save(CustomerDto customerDto) {
         Customer customer = customerTranslator.translateCustomerDtoToModel(customerDto);
         Customer save = customerRepository.save(customer);
-        return save != null;
+        return customerTranslator.translateCustomerModelToDto(save);
     }
 
     public boolean updateById(Long id, CustomerDto customerDto) {

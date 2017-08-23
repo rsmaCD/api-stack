@@ -2,10 +2,10 @@
 
 package com.tw.apistack.security.authrization;
 
-import com.tw.apistack.security.exception.BadPasswordException;
 import com.tw.apistack.security.api.dto.NewPassword;
 import com.tw.apistack.security.core.model.User;
 import com.tw.apistack.security.core.respository.UserRepository;
+import com.tw.apistack.security.exception.BadPasswordException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

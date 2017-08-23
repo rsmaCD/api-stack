@@ -8,13 +8,19 @@ import com.tw.apistack.config.Constants;
 import com.tw.apistack.core.address.model.Address;
 import com.tw.apistack.core.customer.model.Customer;
 import org.apache.http.HttpStatus;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.Matchers.is;
 
@@ -25,6 +31,7 @@ import static org.hamcrest.Matchers.is;
 @ActiveProfiles(Constants.SPRING_PROFILE_TEST)
 @SpringBootTest(classes = ApiStackApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Transactional
 public class CustomerAPITest {
     private static final String API_PATH = "/api/customers";
     @Value("${local.server.port}")
@@ -37,10 +44,25 @@ public class CustomerAPITest {
 
     }
 
+    @After
+    public void tearDown() throws Exception {
+
+    }
+
     //getAll
     @Test
     public void should_get_status_200_when_call_customers_get_all() throws Exception {
-        validator_customer_size_and_status_is_200_when_call_customers(2);
+        //validator_customer_size_and_status_is_200_when_call_customers(2);
+        RestAssured.
+                given()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .when()
+                .get(API_PATH)
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .contentType(ContentType.JSON)
+                .body("size()", is(2));
     }
 
     //getOne-success

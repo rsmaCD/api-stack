@@ -1,7 +1,5 @@
 package com.tw.apistack.endpoint.customer.dto;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * Created by rsma on 20/08/2017.
  */

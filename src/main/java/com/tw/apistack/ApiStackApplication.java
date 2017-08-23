@@ -1,10 +1,8 @@
 package com.tw.apistack;
 
 import com.tw.apistack.config.Constants;
-import com.tw.apistack.core.customer.CustomerRepository;
-import com.tw.apistack.core.customer.model.Customer;
-import com.tw.apistack.core.todo.model.Todo;
 import com.tw.apistack.core.todo.DummyTodoRepository;
+import com.tw.apistack.core.todo.model.Todo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

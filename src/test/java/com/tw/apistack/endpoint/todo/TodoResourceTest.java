@@ -1,8 +1,8 @@
 package com.tw.apistack.endpoint.todo;
 
-import com.tw.apistack.endpoint.todo.dto.ResourceWithUrl;
-import com.tw.apistack.core.todo.model.Todo;
 import com.tw.apistack.core.todo.DummyTodoRepository;
+import com.tw.apistack.core.todo.model.Todo;
+import com.tw.apistack.endpoint.todo.dto.ResourceWithUrl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -16,7 +16,8 @@ import java.util.Optional;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by jxzhong on 2017/7/3.

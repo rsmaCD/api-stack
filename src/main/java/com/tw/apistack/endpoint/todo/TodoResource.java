@@ -1,8 +1,8 @@
 package com.tw.apistack.endpoint.todo;
 
-import com.tw.apistack.endpoint.todo.dto.ResourceWithUrl;
-import com.tw.apistack.core.todo.model.Todo;
 import com.tw.apistack.core.todo.DummyTodoRepository;
+import com.tw.apistack.core.todo.model.Todo;
+import com.tw.apistack.endpoint.todo.dto.ResourceWithUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static org.springframework.http.HttpStatus.*;
 
 /**
@@ -89,8 +91,7 @@ public class TodoResource {
 
 
     private String getHref(Todo todo) {
-        return "";
-        //       return linkTo(methodOn(this.getClass()).getTodo(todo.getId())).withSelfRel().getHref();
+        return linkTo(methodOn(this.getClass()).getTodo(todo.getId())).withSelfRel().getHref();
     }
 
     private ResourceWithUrl toResource(Todo todo) {

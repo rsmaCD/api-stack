@@ -1,13 +1,10 @@
 package com.tw.apistack.endpoint.customer;
 
-import com.tw.apistack.core.address.model.Address;
-import com.tw.apistack.core.customer.model.Customer;
 import com.tw.apistack.endpoint.customer.dto.AddressDto;
 import com.tw.apistack.endpoint.customer.dto.CustomerDto;
 import com.tw.apistack.endpoint.customer.dto.ResourceWithUrl;
 import com.tw.apistack.service.AddressService;
 import com.tw.apistack.service.CustomerService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -69,8 +66,9 @@ public class CustomerResource {
 
     @PostMapping
     public HttpEntity save(@RequestBody @Valid CustomerDto customerDto) {
-        if (customerService.save(customerDto)) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+        CustomerDto save = customerService.save(customerDto);
+        if (save != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(save);
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }

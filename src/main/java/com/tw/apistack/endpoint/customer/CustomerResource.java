@@ -68,7 +68,7 @@ public class CustomerResource {
     public HttpEntity save(@RequestBody @Valid CustomerDto customerDto) {
         CustomerDto save = customerService.save(customerDto);
         if (save != null) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(save);
+            return ResponseEntity.status(HttpStatus.CREATED).body(getCustomerWithUrl(save));
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
@@ -107,8 +107,9 @@ public class CustomerResource {
 
     @PostMapping("/{customer-id}/addresses")
     public HttpEntity addAddress(@PathVariable("customer-id") Long customerId, @RequestBody AddressDto addressDto) {
-        if (addressService.addAddress(customerId, addressDto)) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+        AddressDto save = addressService.addAddress(customerId, addressDto);
+        if (save != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(getAddressWithUrl(customerId, save));
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
@@ -130,6 +131,7 @@ public class CustomerResource {
     private ResourceWithUrl<CustomerDto> getCustomerWithUrl(CustomerDto customerDto) {
         ResourceWithUrl<CustomerDto> resourceWithUrl = new ResourceWithUrl<>(customerDto);
         resourceWithUrl.add(linkTo(methodOn(this.getClass()).getById(customerDto.getId())).withSelfRel());
+        resourceWithUrl.add(linkTo(methodOn(this.getClass()).update(customerDto.getId(),customerDto)).withRel("linkrefs/customers/update"));
         resourceWithUrl.add(linkTo(methodOn(this.getClass()).getAddressesByCustomerId(customerDto.getId())).withRel("addresses"));
         return resourceWithUrl;
     }

@@ -2,6 +2,7 @@ package com.tw.apistack.endpoint.customer.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.springframework.hateoas.ResourceSupport;
 
 /**
@@ -16,6 +17,7 @@ public class ResourceWithUrl<T> extends ResourceSupport {
         this.content = content;
     }
 
+    @JsonUnwrapped
     public T getContent() {
         return content;
     }

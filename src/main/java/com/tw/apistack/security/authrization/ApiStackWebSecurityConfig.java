@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @Configuration
 @EnableWebSecurity
@@ -25,6 +26,7 @@ public class ApiStackWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier("userDetailsService")
     private UserDetailsService userDetailsService;
+    MethodArgumentNotValidException
     @Autowired
     private RestAuthenticationEntryPoint entryPoint;
     @Autowired
@@ -66,6 +68,7 @@ public class ApiStackWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .headers()
                 .cacheControl();
+        http.headers().frameOptions().disable();
     }
 
     @Bean
